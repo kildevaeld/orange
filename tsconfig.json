@@ -20,6 +20,7 @@
         "src/dom.ts",
         "src/html.ts",
         "src/request.ts",
-        "src/map.ts"
+        "src/map.ts",
+        "src/browser.ts"
     ]
 }

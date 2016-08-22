@@ -24,7 +24,7 @@ gulp.task('typescript', () => {
 
 gulp.task('default', ['typescript'], () => {
     
-    return gulp.src('./index.js')
+    return gulp.src('./browser.js')
     .pipe(webpack({
         
         output: {
