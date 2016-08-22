@@ -1368,6 +1368,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	var arrays_1 = __webpack_require__(4);
 	var dom = __webpack_require__(9);
 	var domEvents;
+	var singleTag = /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i;
+	function parseHTML(html) {
+	    var parsed = singleTag.exec(html);
+	    if (parsed) {
+	        return document.createElement(parsed[0]);
+	    }
+	    var div = document.createElement('div');
+	    div.innerHTML = html;
+	    var element = div.firstChild;
+	    return element;
+	}
 
 	var Html = function () {
 	    function Html(el) {
@@ -1468,6 +1479,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return new Html(out);
 	        }
 	    }, {
+	        key: 'clone',
+	        value: function clone() {
+	            return new Html(this.map(function (m) {
+	                return m.cloneNode();
+	            }));
+	        }
+	    }, {
 	        key: 'find',
 	        value: function find(str) {
 	            var out = [];
@@ -1505,6 +1523,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var html = void 0;
 	            var els = void 0;
 	            if (typeof _query === 'string') {
+	                if (_query.length > 0 && _query[0] === '<' && _query[_query.length - 1] === ">" && _query.length >= 3) {
+	                    return new Html([parseHTML(_query)]);
+	                }
 	                if (context) {
 	                    if (context instanceof HTMLElement) {
 	                        els = arrays_1.slice(context.querySelectorAll(_query));

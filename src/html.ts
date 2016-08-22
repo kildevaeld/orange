@@ -4,6 +4,20 @@ import * as dom from './dom';
 
 var domEvents;
 
+var singleTag = /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i;
+
+
+function parseHTML(html:string): HTMLElement {
+  let parsed = singleTag.exec(html);
+  if (parsed) {
+    return document.createElement(parsed[0]);
+  }
+  var div = document.createElement('div');
+  div.innerHTML = html;
+  var element = div.firstChild;
+  return element as HTMLElement;
+}
+
 export class Html {
 
   static query(query: string | HTMLElement | NodeList, context?: string | HTMLElement | NodeList): Html {
@@ -13,6 +27,13 @@ export class Html {
     let html: Html;
     let els: HTMLElement[];
     if (typeof query === 'string') {
+
+      if (query.length > 0 && query[0] === '<' && query[ query.length - 1 ] === ">" 
+        && query.length >= 3 ) {
+        return new Html([parseHTML(query)]);
+      }
+
+
       if (context) {
         if (context instanceof HTMLElement) {
           els = slice(context.querySelectorAll(query));
@@ -118,6 +139,10 @@ export class Html {
       }
     })
     return new Html(out);
+  }
+
+  clone(): Html {
+    return new Html(this.map( m => m.cloneNode() as HTMLElement))
   }
 
   find(str: string): Html {

@@ -3,6 +3,17 @@ const utils_1 = require('./utils');
 const arrays_1 = require('./arrays');
 const dom = require('./dom');
 var domEvents;
+var singleTag = /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i;
+function parseHTML(html) {
+    let parsed = singleTag.exec(html);
+    if (parsed) {
+        return document.createElement(parsed[0]);
+    }
+    var div = document.createElement('div');
+    div.innerHTML = html;
+    var element = div.firstChild;
+    return element;
+}
 class Html {
     constructor(el) {
         if (!Array.isArray(el))
@@ -16,6 +27,10 @@ class Html {
         let html;
         let els;
         if (typeof query === 'string') {
+            if (query.length > 0 && query[0] === '<' && query[query.length - 1] === ">"
+                && query.length >= 3) {
+                return new Html([parseHTML(query)]);
+            }
             if (context) {
                 if (context instanceof HTMLElement) {
                     els = arrays_1.slice(context.querySelectorAll(query));
@@ -113,6 +128,9 @@ class Html {
             }
         });
         return new Html(out);
+    }
+    clone() {
+        return new Html(this.map(m => m.cloneNode()));
     }
     find(str) {
         var out = [];

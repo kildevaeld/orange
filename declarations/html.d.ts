@@ -12,6 +12,7 @@ export declare class Html {
     html(html: string): any;
     css(attr: string | any, value?: any): Html;
     parent(): Html;
+    clone(): Html;
     find(str: string): Html;
     map<T>(fn: (elm: HTMLElement, index?: number) => T): T[];
     forEach(fn: (elm: HTMLElement, index: number) => void): Html;
