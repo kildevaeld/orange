@@ -187,3 +187,13 @@ exports.domReady = (function () {
         loaded ? setTimeout(fn, 0) : fns.push(fn);
     };
 })();
+function createElement(tag, attr) {
+    let elm = document.createElement(tag);
+    if (attr) {
+        for (let key in attr) {
+            elm.setAttribute(key, attr[key]);
+        }
+    }
+    return elm;
+}
+exports.createElement = createElement;

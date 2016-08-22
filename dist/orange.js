@@ -1341,6 +1341,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        loaded ? setTimeout(fn, 0) : fns.push(fn);
 	    };
 	}();
+	function createElement(tag, attr) {
+	    var elm = document.createElement(tag);
+	    if (attr) {
+	        for (var key in attr) {
+	            elm.setAttribute(key, attr[key]);
+	        }
+	    }
+	    return elm;
+	}
+	exports.createElement = createElement;
 
 /***/ },
 /* 10 */

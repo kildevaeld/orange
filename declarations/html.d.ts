@@ -1,7 +1,7 @@
 export declare class Html {
     static query(query: string | HTMLElement | NodeList, context?: string | HTMLElement | NodeList): Html;
     private _elements;
-    readonly length: number;
+    length: number;
     constructor(el: HTMLElement[]);
     get(n: number): HTMLElement;
     addClass(str: string): Html;

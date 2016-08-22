@@ -10,3 +10,4 @@ export declare function selectionStart(elm: HTMLInputElement): number;
 export declare function transitionEnd(elm: Element, fn: (event: TransitionEvent) => void, ctx?: any, duration?: number): void;
 export declare function animationEnd(elm: Element, fn: (event: AnimationEvent) => void, ctx?: any, duration?: number): void;
 export declare const domReady: (fn: any) => void;
+export declare function createElement<T extends HTMLElement>(tag: string, attr: any): T;

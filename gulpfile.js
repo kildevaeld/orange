@@ -3,11 +3,13 @@
 const gulp = require('gulp'),
     tsc = require('gulp-typescript'),
     webpack = require('webpack-stream'),
-    merge = require('merge2');
+    merge = require('merge2'),
+    rename = require('gulp-rename'),
+    uglify = require('gulp-uglify');
 
 
 const project = tsc.createProject('./tsconfig.json', {
-    declaration: false
+    declaration: true
 });
 gulp.task('typescript', () => {
     let result = project.src()
@@ -20,9 +22,18 @@ gulp.task('typescript', () => {
     
     return merge([js,dts]);
     
-})    
+});
 
-gulp.task('default', ['typescript'], () => {
+gulp.task('uglify', ['bundle'], () => {
+    return gulp.src('./dist/orange.js')
+    .pipe(uglify())
+    .pipe(rename('orange.min.js'))
+    .pipe(gulp.dest('dist'));
+})
+
+gulp.task('default', ['bundle', 'uglify']);
+
+gulp.task('bundle', ['typescript'], () => {
     
     return gulp.src('./browser.js')
     .pipe(webpack({
@@ -44,5 +55,5 @@ gulp.task('default', ['typescript'], () => {
 });
 
 gulp.task('watch', () => {
-    return gulp.watch('./src/**/*.ts', ['default']);
+    return gulp.watch('./src/**/*.ts', ['bundle']);
 });

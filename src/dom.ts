@@ -216,4 +216,12 @@ export const domReady = (function() {
 })();
 
 
-
+export function createElement<T extends HTMLElement>(tag: string, attr): T {
+  let elm = <T>document.createElement(tag);
+  if (attr) {
+    for (let key in attr) {
+      elm.setAttribute(key, attr[key]);
+    }
+  }
+  return elm;
+}
