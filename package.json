@@ -1,6 +1,6 @@
 {
   "name": "orange",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,9 @@
     "merge2": "^1.0.2",
     "webpack-stream": "^3.2.0"
   },
-  "typings": "declarations/browser"
+  "typings": "declarations/browser",
+  "jspm": {
+    "main": "browser.js",
+    "format": "cjs",
+  }
 }
