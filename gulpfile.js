@@ -5,7 +5,8 @@ const gulp = require('gulp'),
     webpack = require('webpack-stream'),
     merge = require('merge2'),
     rename = require('gulp-rename'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    babel = require('gulp-babel');
 
 
 const project = tsc.createProject('./tsconfig.json', {
@@ -16,6 +17,9 @@ gulp.task('typescript', () => {
     .pipe(tsc(project))
     
     let js = result.js
+    .pipe(babel({
+        presets: ['es2015']
+        }))
     .pipe(gulp.dest('./'));
     
     let dts = result.dts.pipe(gulp.dest('./declarations'));

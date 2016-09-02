@@ -90,7 +90,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	} : function (obj) {
+	    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	};
 
 	function isObject(obj) {
 	    return obj === Object(obj);
@@ -312,7 +318,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	function _toConsumableArray(arr) {
+	    if (Array.isArray(arr)) {
+	        for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+	            arr2[i] = arr[i];
+	        }return arr2;
+	    } else {
+	        return Array.from(arr);
+	    }
+	}
 
 	var arrays_1 = __webpack_require__(4);
 	var strings_1 = __webpack_require__(5);
@@ -978,9 +992,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	    function defineProperties(target, props) {
+	        for (var i = 0; i < props.length; i++) {
+	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	        }
+	    }return function (Constructor, protoProps, staticProps) {
+	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	    };
+	}();
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	    if (!(instance instanceof Constructor)) {
+	        throw new TypeError("Cannot call a class as a function");
+	    }
+	}
 
 	var self = global || Window;
 	var iterable = 'Symbol' in self && 'iterator' in Symbol;
@@ -1154,6 +1180,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	// TODO: CreateHTML
 
 	var arrays_1 = __webpack_require__(4);
 	var ElementProto = typeof Element !== 'undefined' && Element.prototype || {};
@@ -1358,11 +1385,29 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _createClass = function () {
+	    function defineProperties(target, props) {
+	        for (var i = 0; i < props.length; i++) {
+	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	        }
+	    }return function (Constructor, protoProps, staticProps) {
+	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	    };
+	}();
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	function _defineProperty(obj, key, value) {
+	    if (key in obj) {
+	        Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+	    } else {
+	        obj[key] = value;
+	    }return obj;
+	}
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) {
+	    if (!(instance instanceof Constructor)) {
+	        throw new TypeError("Cannot call a class as a function");
+	    }
+	}
 
 	var utils_1 = __webpack_require__(2);
 	var arrays_1 = __webpack_require__(4);
@@ -1462,7 +1507,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            } else {
 	                return this.forEach(function (e) {
 	                    for (var k in attr) {
-	                        if (attr in e.style) e.style[k] = String(attr[k]);
+	                        if (k in e.style) e.style[k] = String(attr[k]);
 	                    }
 	                });
 	            }
@@ -1477,6 +1522,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	            });
 	            return new Html(out);
+	        }
+	    }, {
+	        key: 'remove',
+	        value: function remove() {
+	            return this.forEach(function (e) {
+	                if (e.parentElement) e.parentElement.removeChild(e);
+	            });
 	        }
 	    }, {
 	        key: 'clone',

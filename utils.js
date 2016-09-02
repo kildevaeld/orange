@@ -1,4 +1,7 @@
 "use strict";
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 function isObject(obj) {
     return obj === Object(obj);
 }
@@ -32,8 +35,10 @@ var idCounter = 0;
  * @param { string } prefix
  * @return { string }
  */
-function uniqueId(prefix = '') {
-    return prefix + (++idCounter);
+function uniqueId() {
+    var prefix = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+
+    return prefix + ++idCounter;
 }
 exports.uniqueId = uniqueId;
 function equal(a, b) {
@@ -41,20 +46,41 @@ function equal(a, b) {
 }
 exports.equal = equal;
 function getOption(option, objs) {
-    for (let o of objs) {
-        if (isObject(o) && o[option])
-            return o[option];
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = objs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var o = _step.value;
+
+            if (isObject(o) && o[option]) return o[option];
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
     }
+
     return null;
 }
 exports.getOption = getOption;
-exports.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-        && window.setImmediate;
-    var canPost = typeof window !== 'undefined'
-        && window.postMessage && window.addEventListener;
+exports.nextTick = function () {
+    var canSetImmediate = typeof window !== 'undefined' && window.setImmediate;
+    var canPost = typeof window !== 'undefined' && window.postMessage && window.addEventListener;
     if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f); };
+        return function (f) {
+            return window.setImmediate(f);
+        };
     }
     if (canPost) {
         var queue = [];
@@ -76,7 +102,7 @@ exports.nextTick = (function () {
     return function nextTick(fn) {
         setTimeout(fn, 0);
     };
-})();
+}();
 function xmlHttpRequest() {
     var e;
     if (window.hasOwnProperty('XMLHttpRequest')) {
@@ -84,41 +110,35 @@ function xmlHttpRequest() {
     }
     try {
         return new ActiveXObject('msxml2.xmlhttp.6.0');
-    }
-    catch (_error) {
+    } catch (_error) {
         e = _error;
     }
     try {
         return new ActiveXObject('msxml2.xmlhttp.3.0');
-    }
-    catch (_error) {
+    } catch (_error) {
         e = _error;
     }
     try {
         return new ActiveXObject('msxml2.xmlhttp');
-    }
-    catch (_error) {
+    } catch (_error) {
         e = _error;
     }
     throw e;
 }
 exports.xmlHttpRequest = xmlHttpRequest;
-const _has = Object.prototype.hasOwnProperty;
+var _has = Object.prototype.hasOwnProperty;
 function eq(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
     // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
-    if (a === b)
-        return a !== 0 || 1 / a == 1 / b;
+    if (a === b) return a !== 0 || 1 / a == 1 / b;
     // A strict comparison is necessary because `null == undefined`.
-    if (a == null || b == null)
-        return a === b;
+    if (a == null || b == null) return a === b;
     // Unwrap any wrapped objects.
     //if (a instanceof _) a = a._wrapped;
     //if (b instanceof _) b = b._wrapped;
     // Compare `[[Class]]` names.
     var className = toString.call(a);
-    if (className != toString.call(b))
-        return false;
+    if (className != toString.call(b)) return false;
     switch (className) {
         // Strings, numbers, dates, and booleans are compared by value.
         case '[object String]':
@@ -128,7 +148,7 @@ function eq(a, b, aStack, bStack) {
         case '[object Number]':
             // `NaN`s are equivalent, but non-reflexive. An `egal` comparison is performed for
             // other numeric values.
-            return a !== +a ? b !== +b : (a === 0 ? 1 / a === 1 / b : a === +b);
+            return a !== +a ? b !== +b : a === 0 ? 1 / a === 1 / b : a === +b;
         case '[object Date]':
         case '[object Boolean]':
             // Coerce dates and booleans to numeric primitive values. Dates are compared by their
@@ -137,33 +157,29 @@ function eq(a, b, aStack, bStack) {
             return +a == +b;
         // RegExps are compared by their source patterns and flags.
         case '[object RegExp]':
-            return a.source == b.source &&
-                a.global == b.global &&
-                a.multiline == b.multiline &&
-                a.ignoreCase == b.ignoreCase;
+            return a.source == b.source && a.global == b.global && a.multiline == b.multiline && a.ignoreCase == b.ignoreCase;
     }
-    if (typeof a != 'object' || typeof b != 'object')
-        return false;
+    if ((typeof a === 'undefined' ? 'undefined' : _typeof(a)) != 'object' || (typeof b === 'undefined' ? 'undefined' : _typeof(b)) != 'object') return false;
     // Assume equality for cyclic structures. The algorithm for detecting cyclic
     // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
     var length = aStack.length;
     while (length--) {
         // Linear search. Performance is inversely proportional to the number of
         // unique nested structures.
-        if (aStack[length] == a)
-            return bStack[length] == b;
+        if (aStack[length] == a) return bStack[length] == b;
     }
     // Objects with different constructors are not equivalent, but `Object`s
     // from different frames are.
-    var aCtor = a.constructor, bCtor = b.constructor;
-    if (aCtor !== bCtor && !(typeof aCtor === 'function' && (aCtor instanceof aCtor) &&
-        typeof bCtor === 'function' && (bCtor instanceof bCtor))) {
+    var aCtor = a.constructor,
+        bCtor = b.constructor;
+    if (aCtor !== bCtor && !(typeof aCtor === 'function' && aCtor instanceof aCtor && typeof bCtor === 'function' && bCtor instanceof bCtor)) {
         return false;
     }
     // Add the first object to the stack of traversed objects.
     aStack.push(a);
     bStack.push(b);
-    var size = 0, result = true;
+    var size = 0,
+        result = true;
     // Recursively compare objects and arrays.
     if (className === '[object Array]') {
         // Compare array lengths to determine if a deep comparison is necessary.
@@ -172,27 +188,23 @@ function eq(a, b, aStack, bStack) {
         if (result) {
             // Deep compare the contents, ignoring non-numeric properties.
             while (size--) {
-                if (!(result = eq(a[size], b[size], aStack, bStack)))
-                    break;
+                if (!(result = eq(a[size], b[size], aStack, bStack))) break;
             }
         }
-    }
-    else {
+    } else {
         // Deep compare objects.
         for (var key in a) {
             if (_has.call(a, key)) {
                 // Count the expected number of properties.
                 size++;
                 // Deep compare each member.
-                if (!(result = _has.call(b, key) && eq(a[key], b[key], aStack, bStack)))
-                    break;
+                if (!(result = _has.call(b, key) && eq(a[key], b[key], aStack, bStack))) break;
             }
         }
         // Ensure that both objects contain the same number of properties.
         if (result) {
             for (key in b) {
-                if (_has.call(b, key) && !(size--))
-                    break;
+                if (_has.call(b, key) && !size--) break;
             }
             result = !size;
         }

@@ -1,4 +1,5 @@
 "use strict";
+
 function camelcase(input) {
     return input.toLowerCase().replace(/-(.)/g, function (match, group1) {
         return group1.toUpperCase();
@@ -7,18 +8,18 @@ function camelcase(input) {
 exports.camelcase = camelcase;
 ;
 function truncate(str, length) {
-    let n = str.substring(0, Math.min(length, str.length));
+    var n = str.substring(0, Math.min(length, str.length));
     return n + (n.length == str.length ? '' : '...');
 }
 exports.truncate = truncate;
-function humanFileSize(bytes, si = false) {
+function humanFileSize(bytes) {
+    var si = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
     var thresh = si ? 1000 : 1024;
     if (Math.abs(bytes) < thresh) {
         return bytes + ' B';
     }
-    var units = si
-        ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-        : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    var units = si ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'] : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
     var u = -1;
     do {
         bytes /= thresh;

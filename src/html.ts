@@ -125,6 +125,7 @@ export class Html {
     } else {
       return this.forEach(e => {
         for (let k in attr) {
+          
           if (k in e.style) e.style[k] = String(attr[k]);
         }
       });

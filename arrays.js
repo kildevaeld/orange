@@ -90,11 +90,11 @@ export class Map<K, V> { // class MapDDD<K,V> implements Map
     }
 }*/
 // Return a new array with duplicates removed
+
 function unique(array) {
-    let seen = new Map();
+    var seen = new Map();
     return array.filter(function (e, i) {
-        if (seen.has(e))
-            return false;
+        if (seen.has(e)) return false;
         /*for (i += 1; i < array.length; i += 1) {
           if (equal(e, array[i])) {
             return false;
@@ -106,25 +106,22 @@ function unique(array) {
 }
 exports.unique = unique;
 function any(array, predicate) {
-    for (let i = 0, ii = array.length; i < ii; i++) {
-        if (predicate(array[i]))
-            return true;
+    for (var i = 0, ii = array.length; i < ii; i++) {
+        if (predicate(array[i])) return true;
     }
     return false;
 }
 exports.any = any;
 function indexOf(array, item) {
-    for (var i = 0, len = array.length; i < len; i++)
-        if (array[i] === item)
-            return i;
-    return -1;
+    for (var i = 0, len = array.length; i < len; i++) {
+        if (array[i] === item) return i;
+    }return -1;
 }
 exports.indexOf = indexOf;
 function find(array, callback, ctx) {
-    let v;
-    for (let i = 0, ii = array.length; i < ii; i++) {
-        if (callback.call(ctx, array[i]))
-            return array[i];
+    var v = void 0;
+    for (var i = 0, ii = array.length; i < ii; i++) {
+        if (callback.call(ctx, array[i])) return array[i];
     }
     return null;
 }
@@ -140,26 +137,24 @@ function flatten(arr) {
 }
 exports.flatten = flatten;
 function sortBy(obj, value, context) {
-    var iterator = typeof value === 'function' ? value : function (obj) { return obj[value]; };
-    return obj
-        .map(function (value, index, list) {
+    var iterator = typeof value === 'function' ? value : function (obj) {
+        return obj[value];
+    };
+    return obj.map(function (value, index, list) {
         return {
             value: value,
             index: index,
             criteria: iterator.call(context, value, index, list)
         };
-    })
-        .sort(function (left, right) {
-        let a = left.criteria, b = right.criteria;
+    }).sort(function (left, right) {
+        var a = left.criteria,
+            b = right.criteria;
         if (a !== b) {
-            if (a > b || a === void 0)
-                return 1;
-            if (a < b || b === void 0)
-                return -1;
+            if (a > b || a === void 0) return 1;
+            if (a < b || b === void 0) return -1;
         }
         return left.index - right.index;
-    })
-        .map(function (item) {
+    }).map(function (item) {
         return item.value;
     });
 }

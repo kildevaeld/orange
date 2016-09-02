@@ -1,12 +1,9 @@
 "use strict";
 // TODO: CreateHTML
-const arrays_1 = require('./arrays');
-var ElementProto = (typeof Element !== 'undefined' && Element.prototype) || {};
-var matchesSelector = ElementProto.matches ||
-    ElementProto.webkitMatchesSelector ||
-    ElementProto.mozMatchesSelector ||
-    ElementProto.msMatchesSelector ||
-    ElementProto.oMatchesSelector || function (selector) {
+
+var arrays_1 = require('./arrays');
+var ElementProto = typeof Element !== 'undefined' && Element.prototype || {};
+var matchesSelector = ElementProto.matches || ElementProto.webkitMatchesSelector || ElementProto.mozMatchesSelector || ElementProto.msMatchesSelector || ElementProto.oMatchesSelector || function (selector) {
     var nodeList = (this.parentNode || document).querySelectorAll(selector) || [];
     return !!~arrays_1.indexOf(nodeList, this);
 };
@@ -16,7 +13,7 @@ var elementAddEventListener = ElementProto.addEventListener || function (eventNa
 var elementRemoveEventListener = ElementProto.removeEventListener || function (eventName, listener) {
     return this.detachEvent('on' + eventName, listener);
 };
-const transitionEndEvent = (function transitionEnd() {
+var transitionEndEvent = function transitionEnd() {
     var el = document.createElement('bootstrap');
     var transEndEventNames = {
         'WebkitTransition': 'webkitTransitionEnd',
@@ -30,8 +27,8 @@ const transitionEndEvent = (function transitionEnd() {
         }
     }
     return null;
-});
-const animationEndEvent = (function animationEnd() {
+};
+var animationEndEvent = function animationEnd() {
     var el = document.createElement('bootstrap');
     var transEndEventNames = {
         'WebkitAnimation': 'webkitAnimationEnd',
@@ -45,12 +42,14 @@ const animationEndEvent = (function animationEnd() {
         }
     }
     return null;
-});
+};
 function matches(elm, selector) {
     return matchesSelector.call(elm, selector);
 }
 exports.matches = matches;
-function addEventListener(elm, eventName, listener, useCap = false) {
+function addEventListener(elm, eventName, listener) {
+    var useCap = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
     elementAddEventListener.call(elm, eventName, listener, useCap);
 }
 exports.addEventListener = addEventListener;
@@ -58,15 +57,14 @@ function removeEventListener(elm, eventName, listener) {
     elementRemoveEventListener.call(elm, eventName, listener);
 }
 exports.removeEventListener = removeEventListener;
-const unbubblebles = 'focus blur change'.split(' ');
-let domEvents = [];
+var unbubblebles = 'focus blur change'.split(' ');
+var domEvents = [];
 function delegate(elm, selector, eventName, callback, ctx) {
-    let root = elm;
-    let handler = function (e) {
-        let node = e.target || e.srcElement;
+    var root = elm;
+    var handler = function handler(e) {
+        var node = e.target || e.srcElement;
         // Already handled
-        if (e.delegateTarget)
-            return;
+        if (e.delegateTarget) return;
         for (; node && node != root; node = node.parentNode) {
             if (matches(node, selector)) {
                 e.delegateTarget = node;
@@ -74,7 +72,7 @@ function delegate(elm, selector, eventName, callback, ctx) {
             }
         }
     };
-    let useCap = !!~unbubblebles.indexOf(eventName);
+    var useCap = !!~unbubblebles.indexOf(eventName);
     addEventListener(elm, eventName, handler, useCap);
     domEvents.push({ eventName: eventName, handler: handler, listener: callback, selector: selector });
     return handler;
@@ -88,11 +86,8 @@ function undelegate(elm, selector, eventName, callback) {
     var handlers = domEvents.slice();
     for (var i = 0, len = handlers.length; i < len; i++) {
         var item = handlers[i];
-        var match = item.eventName === eventName &&
-            (callback ? item.listener === callback : true) &&
-            (selector ? item.selector === selector : true);
-        if (!match)
-            continue;
+        var match = item.eventName === eventName && (callback ? item.listener === callback : true) && (selector ? item.selector === selector : true);
+        if (!match) continue;
         removeEventListener(elm, item.eventName, item.handler);
         domEvents.splice(arrays_1.indexOf(handlers, item), 1);
     }
@@ -100,31 +95,30 @@ function undelegate(elm, selector, eventName, callback) {
 exports.undelegate = undelegate;
 function addClass(elm, className) {
     if (elm.classList) {
-        let split = className.split(' ');
-        for (let i = 0, ii = split.length; i < ii; i++) {
-            if (elm.classList.contains(split[i].trim()))
-                continue;
+        var split = className.split(' ');
+        for (var i = 0, ii = split.length; i < ii; i++) {
+            if (elm.classList.contains(split[i].trim())) continue;
             elm.classList.add(split[i].trim());
         }
-    }
-    else {
+    } else {
         elm.className = arrays_1.unique(elm.className.split(' ').concat(className.split(' '))).join(' ');
     }
 }
 exports.addClass = addClass;
 function removeClass(elm, className) {
     if (elm.classList) {
-        let split = className.split(' ');
-        for (let i = 0, ii = split.length; i < ii; i++) {
+        var split = className.split(' ');
+        for (var i = 0, ii = split.length; i < ii; i++) {
             elm.classList.remove(split[i].trim());
         }
-    }
-    else {
-        let split = elm.className.split(' '), classNames = className.split(' '), tmp = split, index;
-        for (let i = 0, ii = classNames.length; i < ii; i++) {
-            index = split.indexOf(classNames[i]);
-            if (!!~index)
-                split = split.splice(index, 1);
+    } else {
+        var _split = elm.className.split(' '),
+            classNames = className.split(' '),
+            tmp = _split,
+            index = void 0;
+        for (var _i = 0, _ii = classNames.length; _i < _ii; _i++) {
+            index = _split.indexOf(classNames[_i]);
+            if (!!~index) _split = _split.splice(index, 1);
         }
     }
 }
@@ -141,8 +135,7 @@ function selectionStart(elm) {
     if ('selectionStart' in elm) {
         // Standard-compliant browsers
         return elm.selectionStart;
-    }
-    else if (document.selection) {
+    } else if (document.selection) {
         // IE
         elm.focus();
         var sel = document.selection.createRange();
@@ -158,7 +151,7 @@ var _events = {
 };
 function transitionEnd(elm, fn, ctx, duration) {
     var event = _events.transitionEnd || (_events.transitionEnd = transitionEndEvent());
-    var callback = function (e) {
+    var callback = function callback(e) {
         removeEventListener(elm, event, callback);
         fn.call(ctx, e);
     };
@@ -167,31 +160,37 @@ function transitionEnd(elm, fn, ctx, duration) {
 exports.transitionEnd = transitionEnd;
 function animationEnd(elm, fn, ctx, duration) {
     var event = _events.animationEnd || (_events.animationEnd = animationEndEvent());
-    var callback = function (e) {
+    var callback = function callback(e) {
         removeEventListener(elm, event, callback);
         fn.call(ctx, e);
     };
     addEventListener(elm, event, callback);
 }
 exports.animationEnd = animationEnd;
-exports.domReady = (function () {
-    var fns = [], listener, doc = document, hack = doc.documentElement.doScroll, domContentLoaded = 'DOMContentLoaded', loaded = (hack ? /^loaded|^c/ : /^loaded|^i|^c/).test(doc.readyState);
+exports.domReady = function () {
+    var fns = [],
+        _listener,
+        doc = document,
+        hack = doc.documentElement.doScroll,
+        domContentLoaded = 'DOMContentLoaded',
+        loaded = (hack ? /^loaded|^c/ : /^loaded|^i|^c/).test(doc.readyState);
     if (!loaded) {
-        doc.addEventListener(domContentLoaded, listener = function () {
-            doc.removeEventListener(domContentLoaded, listener);
+        doc.addEventListener(domContentLoaded, _listener = function listener() {
+            doc.removeEventListener(domContentLoaded, _listener);
             loaded = true;
-            while (listener = fns.shift())
-                listener();
+            while (_listener = fns.shift()) {
+                _listener();
+            }
         });
     }
     return function (fn) {
         loaded ? setTimeout(fn, 0) : fns.push(fn);
     };
-})();
+}();
 function createElement(tag, attr) {
-    let elm = document.createElement(tag);
+    var elm = document.createElement(tag);
     if (attr) {
-        for (let key in attr) {
+        for (var key in attr) {
             elm.setAttribute(key, attr[key]);
         }
     }
