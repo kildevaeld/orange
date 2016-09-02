@@ -114,7 +114,7 @@ class Html {
         else {
             return this.forEach(e => {
                 for (let k in attr) {
-                    if (attr in e.style)
+                    if (k in e.style)
                         e.style[k] = String(attr[k]);
                 }
             });
@@ -128,6 +128,12 @@ class Html {
             }
         });
         return new Html(out);
+    }
+    remove() {
+        return this.forEach(e => {
+            if (e.parentElement)
+                e.parentElement.removeChild(e);
+        });
     }
     clone() {
         return new Html(this.map(m => m.cloneNode()));

@@ -1,6 +1,6 @@
 {
   "name": "orange",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,7 @@
     "gulp-uglify": "^2.0.0",
     "gulp-uglifyjs": "^0.6.2",
     "merge2": "^1.0.2",
+    "typescript": "^2.1.0-dev.20160902",
     "webpack-stream": "^3.2.0"
   },
   "typings": "declarations/browser",

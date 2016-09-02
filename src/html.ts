@@ -1,4 +1,4 @@
-import {isObject} from './utils';
+import {isObject, isString} from './utils';
 import {slice} from './arrays';
 import * as dom from './dom';
 
@@ -87,7 +87,7 @@ export class Html {
     }, false);
   }
 
-  attr(key: string | Object, value?: any): Html | string {
+  attr(key: string | Object, value?: any): any {
     let attr;
     if (typeof key === 'string' && value) {
       attr = { [key]: value };
@@ -125,7 +125,7 @@ export class Html {
     } else {
       return this.forEach(e => {
         for (let k in attr) {
-          if (attr in e.style) e.style[k] = String(attr[k]);
+          if (k in e.style) e.style[k] = String(attr[k]);
         }
       });
     }
@@ -140,6 +140,14 @@ export class Html {
     })
     return new Html(out);
   }
+
+  remove(): Html {
+    return this.forEach( e => {
+      if (e.parentElement) e.parentElement.removeChild(e);
+    })
+  }
+
+  
 
   clone(): Html {
     return new Html(this.map( m => m.cloneNode() as HTMLElement))
