@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <script src="../dist/orange.js"></script>
+</head>
+
+<body>
+    <img id="image"></img>
+</body>
+<script>
+    var image = document.querySelector('#image')
+    setTimeout(function() {
+        orange.imageLoaded(image)
+            .then(function(loaded) {
+                console.log('image is loaded', loaded)
+            }).catch(function(e) {
+                console.log(e);
+            });
+    }, 1000)
+
+    image.src = "http://65.media.tumblr.com/f5b9e422f92d6a69974b402f106d58bd/tumblr_n6qzvaD2PO1tddya3o1_1280.jpg"
+</script>
+
+</html>

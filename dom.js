@@ -1,7 +1,12 @@
 "use strict";
 // TODO: CreateHTML
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var arrays_1 = require('./arrays');
+var promises_1 = require('./promises');
 var ElementProto = typeof Element !== 'undefined' && Element.prototype || {};
 var matchesSelector = ElementProto.matches || ElementProto.webkitMatchesSelector || ElementProto.mozMatchesSelector || ElementProto.msMatchesSelector || ElementProto.oMatchesSelector || function (selector) {
     var nodeList = (this.parentNode || document).querySelectorAll(selector) || [];
@@ -57,7 +62,7 @@ function removeEventListener(elm, eventName, listener) {
     elementRemoveEventListener.call(elm, eventName, listener);
 }
 exports.removeEventListener = removeEventListener;
-var unbubblebles = 'focus blur change'.split(' ');
+var unbubblebles = 'focus blur change load error'.split(' ');
 var domEvents = [];
 function delegate(elm, selector, eventName, callback, ctx) {
     var root = elm;
@@ -197,3 +202,77 @@ function createElement(tag, attr) {
     return elm;
 }
 exports.createElement = createElement;
+
+var LoadedImage = function () {
+    function LoadedImage(img) {
+        _classCallCheck(this, LoadedImage);
+
+        this.img = img;
+    }
+
+    _createClass(LoadedImage, [{
+        key: 'check',
+        value: function check(fn) {
+            this.fn = fn;
+            var isComplete = this.getIsImageComplete();
+            if (isComplete) {
+                // report based on naturalWidth
+                this.confirm(this.img.naturalWidth !== 0, 'naturalWidth');
+                return;
+            }
+            this.img.addEventListener('load', this);
+            this.img.addEventListener('error', this);
+        }
+    }, {
+        key: 'confirm',
+        value: function confirm(loaded, msg, err) {
+            this.isLoaded = loaded;
+            if (this.fn) this.fn(err);
+        }
+    }, {
+        key: 'getIsImageComplete',
+        value: function getIsImageComplete() {
+            return this.img.complete && this.img.naturalWidth !== undefined && this.img.naturalWidth !== 0;
+        }
+    }, {
+        key: 'handleEvent',
+        value: function handleEvent(e) {
+            var method = 'on' + event.type;
+            if (this[method]) {
+                this[method](event);
+            }
+        }
+    }, {
+        key: 'onload',
+        value: function onload(e) {
+            this.confirm(true, 'onload');
+            this.unbindEvents();
+        }
+    }, {
+        key: 'onerror',
+        value: function onerror(e) {
+            this.confirm(false, 'onerror', new Error(e.error));
+            this.unbindEvents();
+        }
+    }, {
+        key: 'unbindEvents',
+        value: function unbindEvents() {
+            this.img.removeEventListener('load', this);
+            this.img.removeEventListener('error', this);
+            this.fn = void 0;
+        }
+    }]);
+
+    return LoadedImage;
+}();
+
+function imageLoaded(img) {
+    return new promises_1.Promise(function (resolve, reject) {
+        var i = new LoadedImage(img);
+        i.check(function (err) {
+            if (err) return reject(err);
+            resolve(i.isLoaded);
+        });
+    });
+}
+exports.imageLoaded = imageLoaded;
