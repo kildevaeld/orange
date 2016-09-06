@@ -17,10 +17,7 @@
         "src/utils.ts",
         "src/strings.ts",
         "src/functions.ts",
-        "src/dom.ts",
-        "src/html.ts",
         "src/request.ts",
-        "src/map.ts",
-        "src/browser.ts"
+        "src/map.ts"
     ]
 }

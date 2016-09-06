@@ -39,7 +39,7 @@ gulp.task('default', ['bundle', 'uglify']);
 
 gulp.task('bundle', ['typescript'], () => {
     
-    return gulp.src('./browser.js')
+    return gulp.src('./index.js')
     .pipe(webpack({
         
         output: {
