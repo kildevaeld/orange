@@ -1,7 +1,7 @@
 declare var global
 declare var Symbol;
 
-var self = global || Window;
+var self = window||global;
 
 export interface IKeyValuePair<K,V> {
     key: K;
@@ -160,8 +160,8 @@ export interface MapConstructor {
 	new <T,V>(): IMap<T,V>
 }
 
-if (!global.Map) {
-    global.Map = MapShim;
+if (!self.Map) {
+    self.Map = MapShim;
 }
 
-export const Map: new () => MapConstructor = global.Map;
+export const Map: new () => MapConstructor = self.Map;

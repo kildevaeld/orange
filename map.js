@@ -4,7 +4,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var self = global || Window;
+var self = window || global;
 var iterable = 'Symbol' in self && 'iterator' in Symbol;
 // Build a destructive iterator for the value list
 function iteratorFor(items) {
@@ -165,7 +165,7 @@ var MapShim = function () {
     return MapShim;
 }();
 
-if (!global.Map) {
-    global.Map = MapShim;
+if (!self.Map) {
+    self.Map = MapShim;
 }
-exports.Map = global.Map;
+exports.Map = self.Map;
