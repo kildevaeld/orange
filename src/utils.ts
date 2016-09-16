@@ -5,7 +5,7 @@ export function isObject(obj: any): obj is Object {
 }
 
 export function isString(a: any): a is String {
-    return typeof a === 'function';
+    return typeof a === 'string';
 }
 
 export function isNumber(a: any): a is Number {

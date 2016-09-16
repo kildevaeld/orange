@@ -7,7 +7,7 @@ function isObject(obj) {
 }
 exports.isObject = isObject;
 function isString(a) {
-    return typeof a === 'function';
+    return typeof a === 'string';
 }
 exports.isString = isString;
 function isNumber(a) {
