@@ -1,7 +1,7 @@
 declare var global
 declare var Symbol;
 
-var self = window||global;
+var self = typeof window === 'undefined' ? global : window;
 
 export interface IKeyValuePair<K,V> {
     key: K;

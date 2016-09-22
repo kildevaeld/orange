@@ -4,7 +4,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var self = window || global;
+var self = typeof window === 'undefined' ? global : window;
 var iterable = 'Symbol' in self && 'iterator' in Symbol;
 // Build a destructive iterator for the value list
 function iteratorFor(items) {

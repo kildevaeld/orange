@@ -993,7 +993,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	}
 
-	var self = window || global;
+	var self = typeof window === 'undefined' ? global : window;
 	var iterable = 'Symbol' in self && 'iterator' in Symbol;
 	// Build a destructive iterator for the value list
 	function iteratorFor(items) {
