@@ -1,7 +1,7 @@
 
 
 export function isObject(obj: any): obj is Object {
-  return obj === Object(obj);
+    return obj === Object(obj);
 }
 
 export function isString(a: any): a is String {
@@ -22,7 +22,7 @@ export function isDate(a: any): a is Date {
 
 export function isArray(a: any): a is Array<any> {
     return Array.isArray(a);
-} 
+}
 
 export function isFunction(a: any): a is Function {
     return typeof a === 'function';
@@ -78,13 +78,13 @@ export const nextTick = (function () {
             window.postMessage('process-tick', '*');
         };
     }
-    return function nextTick(fn:Function) {
+    return function nextTick(fn: Function) {
         setTimeout(fn, 0);
     };
 })();
 
 export function xmlHttpRequest(): XMLHttpRequest {
-     var e;
+    var e;
     if (window.hasOwnProperty('XMLHttpRequest')) {
         return new XMLHttpRequest();
     }
