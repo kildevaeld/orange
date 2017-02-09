@@ -13,7 +13,7 @@ function truncate(str, length) {
 }
 exports.truncate = truncate;
 function humanFileSize(bytes) {
-    var si = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+    var si = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
     var thresh = si ? 1000 : 1024;
     if (Math.abs(bytes) < thresh) {

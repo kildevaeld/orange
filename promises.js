@@ -117,7 +117,7 @@ function delay(timeout) {
 exports.delay = delay;
 ;
 function eachAsync(array, iterator, context) {
-    var accumulate = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+    var accumulate = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
     return mapAsync(array, iterator, context, accumulate).then(function () {
         return void 0;
@@ -125,7 +125,7 @@ function eachAsync(array, iterator, context) {
 }
 exports.eachAsync = eachAsync;
 function mapAsync(array, iterator, context) {
-    var accumulate = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+    var accumulate = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
     return new exports.Promise(function (resolve, reject) {
         var i = 0,

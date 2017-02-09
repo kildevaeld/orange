@@ -10,7 +10,7 @@ var arrays_1 = require('./arrays');
  * @return {Object}      Shallow object with path names e.g. { 'level1.level2': 'value' }
  */
 function objToPaths(obj) {
-    var separator = arguments.length <= 1 || arguments[1] === undefined ? "." : arguments[1];
+    var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ".";
 
     var ret = {};
     for (var key in obj) {

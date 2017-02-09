@@ -67,7 +67,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	__export(__webpack_require__(3));
 	__export(__webpack_require__(6));
 	__export(__webpack_require__(4));
-	__export(__webpack_require__(7));
+	//export * from './map';
 
 /***/ },
 /* 1 */
@@ -75,12 +75,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
 	    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
 	} : function (obj) {
-	    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
 	};
 
 	function isObject(obj) {
@@ -117,7 +117,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @return { string }
 	 */
 	function uniqueId() {
-	    var prefix = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+	    var prefix = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
 	    return prefix + ++idCounter;
 	}
@@ -345,7 +345,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.bind = bind;
 	function callFunc(fn, ctx) {
-	    var args = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
+	    var args = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
 	    switch (args.length) {
 	        case 0:
@@ -412,107 +412,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports) {
 
 	"use strict";
-	/*class KeyValuePair<K, V> {
-	    key: K;
-	    value: V;
-	    constructor(key: K, value: V) {
-	        this.key = key;
-	        this.value = value;
-	    }
-	}
-	export class Map<K, V> { // class MapDDD<K,V> implements Map
-	    // -------------- Fields -----------------------
-	    private keyAndValues: Array<KeyValuePair<K, V>>;
-	    // ---------------------------------------------
-	    constructor() {
-	        this.keyAndValues = [];
-	    }
-	    // --- Public Methods ---
-	    getKeysOfValue(value: V) {
-	        var keysToReturn: Array<K> = [];
-	        var valueToFind = value;
-	        this.keyAndValues.forEach(function (value: KeyValuePair<K, V>, index: number, array: KeyValuePair<K, V>[]): void {
-	            if (value.value === valueToFind) {
-	                keysToReturn.push(value.key);
-	            }
-	        });
-	        return keysToReturn;
-	    }
-
-	    // Standard:
-	    clear(): void {
-	        this.keyAndValues = [];
-	    }
-	    delete(key: K): boolean {
-	        var found = false;
-	        this.keyAndValues.forEach(function (value: KeyValuePair<K, V>, index: number, array: KeyValuePair<K, V>[]): void {
-	            if (found) return;
-	            if (key === value.key) {
-	                array = array.slice(0, index).concat(array.slice(index + 1));
-	                found = true;
-	            }
-	        });
-	        return found;
-	    }
-	    forEach(callbackfn: (value: V, key: K, map: Map<K, V>) => void, thisArg?: any): void {
-	        this.keyAndValues.forEach(function (value: KeyValuePair<K, V>, index: number, array: KeyValuePair<K, V>[]): void {
-	            callbackfn.apply(thisArg, [value.value, value.key, this]);
-	        }, this);
-	    }
-	    get(key: K): V {
-	        var valueToReturn: V = undefined;
-	        this.keyAndValues.forEach(function (value: KeyValuePair<K, V>, index: number, array: KeyValuePair<K, V>[]): void {
-	            if (valueToReturn !== undefined) return;
-	            if (key === value.key) {
-	                valueToReturn = value.value;
-	            }
-	        });
-	        return valueToReturn;
-	    }
-	    has(key: K): boolean {
-	        var found = false;
-	        this.keyAndValues.forEach(function (value: KeyValuePair<K, V>, index: number, array: KeyValuePair<K, V>[]): void {
-	            if (found) return;
-	            if (key === value.key) {
-	                found = true;
-	            }
-	        });
-	        return found;
-	    }
-	    set(key: K, value: V): Map<K, V> {
-	        var found = false;
-	        var valueToSet = value;
-	        this.keyAndValues.forEach(function (value: KeyValuePair<K, V>, index: number, array: KeyValuePair<K, V>[]): void {
-	            if (found) return;
-	            if (key === value.key) {
-	                found = true;
-	                value.value = valueToSet;
-	            }
-	        });
-	        if (!found) {
-	            this.keyAndValues.push(new KeyValuePair<K, V>(key, valueToSet));
-	        }
-	        return this;
-	    }
-	    // ----------------------
-
-	    // Getters:
-	    // Standard:
-	    get size() {
-	        return this.keyAndValues.length;
-	    }
-	}*/
 	// Return a new array with duplicates removed
 
 	function unique(array) {
 	    var seen = new Map();
 	    return array.filter(function (e, i) {
 	        if (seen.has(e)) return false;
-	        /*for (i += 1; i < array.length; i += 1) {
-	          if (equal(e, array[i])) {
-	            return false;
-	          }
-	        }*/
 	        seen.set(e, true);
 	        return true;
 	    });
@@ -592,7 +497,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.truncate = truncate;
 	function humanFileSize(bytes) {
-	    var si = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	    var si = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
 	    var thresh = si ? 1000 : 1024;
 	    if (Math.abs(bytes) < thresh) {
@@ -624,7 +529,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @return {Object}      Shallow object with path names e.g. { 'level1.level2': 'value' }
 	 */
 	function objToPaths(obj) {
-	    var separator = arguments.length <= 1 || arguments[1] === undefined ? "." : arguments[1];
+	    var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ".";
 
 	    var ret = {};
 	    for (var key in obj) {
@@ -935,7 +840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.delay = delay;
 	;
 	function eachAsync(array, iterator, context) {
-	    var accumulate = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+	    var accumulate = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
 	    return mapAsync(array, iterator, context, accumulate).then(function () {
 	        return void 0;
@@ -943,7 +848,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.eachAsync = eachAsync;
 	function mapAsync(array, iterator, context) {
-	    var accumulate = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+	    var accumulate = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
 	    return new exports.Promise(function (resolve, reject) {
 	        var i = 0,
@@ -969,195 +874,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	}
 	exports.mapAsync = mapAsync;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
-
-	var _createClass = function () {
-	    function defineProperties(target, props) {
-	        for (var i = 0; i < props.length; i++) {
-	            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-	        }
-	    }return function (Constructor, protoProps, staticProps) {
-	        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-	    };
-	}();
-
-	function _classCallCheck(instance, Constructor) {
-	    if (!(instance instanceof Constructor)) {
-	        throw new TypeError("Cannot call a class as a function");
-	    }
-	}
-
-	var self = typeof window === 'undefined' ? global : window;
-	var iterable = 'Symbol' in self && 'iterator' in Symbol;
-	// Build a destructive iterator for the value list
-	function iteratorFor(items) {
-	    var iterator = {
-	        next: function next() {
-	            var value = items.shift();
-	            return { done: value === undefined, value: value };
-	        }
-	    };
-	    if (iterable) {
-	        iterator[Symbol.iterator] = function () {
-	            return iterator;
-	        };
-	    }
-	    return iterator;
-	}
-
-	var KeyValuePair = function KeyValuePair(key, value) {
-	    _classCallCheck(this, KeyValuePair);
-
-	    this.key = key;
-	    this.value = value;
-	};
-
-	var MapShim = function () {
-	    // ---------------------------------------------
-	    function MapShim() {
-	        _classCallCheck(this, MapShim);
-
-	        this.keyAndValues = [];
-	    }
-	    // --- Public Methods ---
-
-
-	    _createClass(MapShim, [{
-	        key: 'getKeysOfValue',
-	        value: function getKeysOfValue(value) {
-	            var keysToReturn = [];
-	            var valueToFind = value;
-	            this.keyAndValues.forEach(function (value, index, array) {
-	                if (value.value === valueToFind) {
-	                    keysToReturn.push(value.key);
-	                }
-	            });
-	            return keysToReturn;
-	        }
-	        // Standard:
-
-	    }, {
-	        key: 'clear',
-	        value: function clear() {
-	            this.keyAndValues = [];
-	        }
-	    }, {
-	        key: 'delete',
-	        value: function _delete(key) {
-	            var found = false;
-	            this.keyAndValues.forEach(function (value, index, array) {
-	                if (found) return;
-	                if (key === value.key) {
-	                    array = array.slice(0, index).concat(array.slice(index + 1));
-	                    found = true;
-	                }
-	            });
-	            return found;
-	        }
-	    }, {
-	        key: 'forEach',
-	        value: function forEach(callbackfn, thisArg) {
-	            this.keyAndValues.forEach(function (value, index, array) {
-	                callbackfn.apply(thisArg, [value.value, value.key, this]);
-	            }, this);
-	        }
-	    }, {
-	        key: 'get',
-	        value: function get(key) {
-	            var valueToReturn = undefined;
-	            this.keyAndValues.forEach(function (value, index, array) {
-	                if (valueToReturn !== undefined) return;
-	                if (key === value.key) {
-	                    valueToReturn = value.value;
-	                }
-	            });
-	            return valueToReturn;
-	        }
-	    }, {
-	        key: 'has',
-	        value: function has(key) {
-	            var found = false;
-	            this.keyAndValues.forEach(function (value, index, array) {
-	                if (found) return;
-	                if (key === value.key) {
-	                    found = true;
-	                }
-	            });
-	            return found;
-	        }
-	    }, {
-	        key: 'set',
-	        value: function set(key, value) {
-	            var found = false;
-	            var valueToSet = value;
-	            this.keyAndValues.forEach(function (value, index, array) {
-	                if (found) return;
-	                if (key === value.key) {
-	                    found = true;
-	                    value.value = valueToSet;
-	                }
-	            });
-	            if (!found) {
-	                this.keyAndValues.push(new KeyValuePair(key, valueToSet));
-	            }
-	            return this;
-	        }
-	    }, {
-	        key: 'keys',
-	        value: function keys() {
-	            var items = [];
-	            this.forEach(function (value, name) {
-	                items.push(name);
-	            });
-	            return iteratorFor(items);
-	        }
-	    }, {
-	        key: 'values',
-	        value: function values() {
-	            var items = [];
-	            this.forEach(function (value) {
-	                items.push(value);
-	            });
-	            return iteratorFor(items);
-	        }
-	    }, {
-	        key: 'entries',
-	        value: function entries() {
-	            var items = [];
-	            this.forEach(function (value, name) {
-	                items.push([name, value]);
-	            });
-	            return iteratorFor(items);
-	        }
-	        // ----------------------
-	        // Getters:
-	        // Standard:
-
-	    }, {
-	        key: Symbol.iterator,
-	        value: function value() {
-	            return this.entries();
-	        }
-	    }, {
-	        key: 'size',
-	        get: function get() {
-	            return this.keyAndValues.length;
-	        }
-	    }]);
-
-	    return MapShim;
-	}();
-
-	if (!self.Map) {
-	    self.Map = MapShim;
-	}
-	exports.Map = self.Map;
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }

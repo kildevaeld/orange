@@ -11,4 +11,4 @@ __export(require('./objects'));
 __export(require('./arrays'));
 __export(require('./promises'));
 __export(require('./strings'));
-__export(require('./map'));
+//export * from './map';

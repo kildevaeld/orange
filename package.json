@@ -1,6 +1,6 @@
 {
   "name": "orange",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "typescript": "^2.1.0-dev.20160902",
     "webpack-stream": "^3.2.0"
   },
-  "typings": "declarations/index",
+  "typings": "declarations/index.d.ts",
   "jspm": {
     "main": "index.js",
     "format": "cjs"

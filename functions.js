@@ -34,7 +34,7 @@ function bind(method, context) {
 }
 exports.bind = bind;
 function callFunc(fn, ctx) {
-    var args = arguments.length <= 2 || arguments[2] === undefined ? [] : arguments[2];
+    var args = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
     switch (args.length) {
         case 0:
